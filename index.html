@@ -151,7 +151,6 @@
   .goal b{color:var(--acc); font-weight:500; margin-right:9px;}
   table.words td.hz{font-size:17px; font-weight:500;}
   table.words td.pyc{color:var(--acc); font-size:12.5px;}
-  table.words td.hv{color:var(--muted); font-size:12.5px;}
   .g{background:var(--panel); border-radius:12px; padding:16px 19px; margin:0 0 13px;}
   .gpt{font-size:14px; font-weight:500; margin:0 0 6px;}
   .gfm{font-size:13px; color:var(--acc); background:var(--accb); display:inline-block;
@@ -249,7 +248,7 @@ function go(h){ location.hash = '#/' + h; }
 var SOP = [
   ['1 签到','2 分钟','—'],
   ['2 复习','5 分钟','上一课的生词表快问快答'],
-  ['3 新词导入','12 分钟','本课生词表（发音 → 汉越音 → 越南语释义）'],
+  ['3 新词导入','12 分钟','本课生词表（发音 → 越南语释义）'],
   ['4 句型操练','12 分钟','本课语法点 + 例句（领读 → 轮读 → 纠音）'],
   ['5 互动练习','10 分钟','本课课文对话（角色扮演）'],
   ['6 小结与作业','4 分钟','本课易错点 + 课后任务']
@@ -343,7 +342,7 @@ function renderLevel(lvId, stageId){
       '<h2>导入 ' + esc(lv.name) + ' 需要准备什么</h2>' +
       '<table><tr><th style="width:26%">项目</th><th style="width:74%">说明</th></tr>' +
       '<tr><td><b>词表</b></td><td>HSK ' + lv.name.slice(3) + ' 的词表（约 ' + (lv.words || '—') +
-      ' 词），含拼音 / 汉越音 / 越南语释义</td></tr>' +
+      ' 词），含拼音 / 越南语释义</td></tr>' +
       '<tr><td><b>课程编排</b></td><td>把词表切成每课 12 词，划分阶段（HSK1 是 6 阶段 42 课）</td></tr>' +
       '<tr><td><b>教课内容</b></td><td>每课的语法点、例句、对话、操练、易错点、作业</td></tr>' +
       '<tr><td><b>音频</b></td><td>全部生词的发音音频（HSK1 是 506 条）</td></tr>' +
@@ -392,17 +391,19 @@ var BOOK_SECS = ['一　生词', '二　语法', '三　例句', '四　课文',
 var PLAN_SECS = ['一　本课目标', '二　语法点（讲解顺序）', '三　课堂操练', '四　易错点',
                  '五　课后任务', '六　与 45 分钟六步 SOP 的对应'];
 
+/* 汉越音列已按 Tony 要求移除（2026-09-28）。
+   原因：汉越音是历史读音不是翻译，对口语短语/语法词会产生纯噪音
+   （没关系→một quan hệ、妈→ma「鬼」）。数据里的 hv 字段保留，随时可加回。 */
 function wordsTable(L){
   var rows = L.words.map(function(w){
     return '<tr><td class="hz">' + esc(w.hz) + '</td>' +
       '<td class="pyc">' + esc(w.py) + '</td>' +
-      '<td class="hv">' + esc(w.hv) + '</td>' +
       '<td>' + esc(w.vi) + '</td>' +
       '<td class="hint">' + esc(w.pos) + '</td></tr>';
   }).join('');
-  return '<table class="words"><tr><th style="width:13%">汉字</th>' +
-    '<th style="width:17%">拼音</th><th style="width:17%">汉越音</th>' +
-    '<th style="width:39%">越南语</th><th style="width:14%">词性</th></tr>' + rows + '</table>';
+  return '<table class="words"><tr><th style="width:15%">汉字</th>' +
+    '<th style="width:20%">拼音</th>' +
+    '<th style="width:51%">越南语</th><th style="width:14%">词性</th></tr>' + rows + '</table>';
 }
 
 function exercises(L){
